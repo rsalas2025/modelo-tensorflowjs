@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Modelo TensorFlow.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+    <h2>Probando Modelo en TensorFlow.js</h2>
+    <button onclick="hacerPrediccion()">Ejecutar Predicción</button>
+    <p id="resultado"></p>
+
+    <script>
+        let modelo;
+
+        async function cargarModelo() {
+            modelo = await tf.loadLayersModel('modelo_js/model.json'); // Ajusta la ruta si es necesario
+            console.log("Modelo cargado correctamente");
+        }
+
+        async function hacerPrediccion() {
+            if (!modelo) {
+                alert("El modelo aún no se ha cargado.");
+                return;
+            }
+
+            let entrada = tf.randomUniform([1, 28, 28]);  // Simulación de entrada para MNIST
+            let prediccion = modelo.predict(entrada);
+            prediccion.print();
+
+            document.getElementById("resultado").innerText = "Predicción realizada. Revisa la consola para ver los valores.";
+        }
+
+        cargarModelo();
+    </script>
+</body>
+</html>
